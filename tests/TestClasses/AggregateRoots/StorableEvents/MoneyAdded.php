@@ -6,7 +6,10 @@ use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 
 class MoneyAdded extends ShouldBeStored
 {
-    public int $amount;
+    /**
+     * @var int
+     */
+    public $amount;
 
     public function __construct(int $amount)
     {

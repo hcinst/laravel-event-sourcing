@@ -4,5 +4,8 @@ namespace Spatie\EventSourcing\Tests\TestClasses\AggregateRoots;
 
 class AccountAggregateRootThatAllowsConcurrency extends AccountAggregateRoot
 {
-    protected static bool $allowConcurrency = true;
+    /**
+     * @var bool
+     */
+    protected static $allowConcurrency = true;
 }

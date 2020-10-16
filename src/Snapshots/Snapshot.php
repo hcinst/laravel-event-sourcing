@@ -4,11 +4,20 @@ namespace Spatie\EventSourcing\Snapshots;
 
 class Snapshot
 {
-    public string $aggregateUuid;
+    /**
+     * @var string
+     */
+    public $aggregateUuid;
 
-    public int $aggregateVersion;
+    /**
+     * @var int
+     */
+    public $aggregateVersion;
 
-    public array $state;
+    /**
+     * @var array
+     */
+    public $state;
 
     public function __construct(
         string $aggregateUuid,

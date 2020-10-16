@@ -21,7 +21,10 @@ use Spatie\EventSourcing\Tests\TestClasses\Reactors\BrokeReactor;
 
 class ProjectionistTest extends TestCase
 {
-    protected Account $account;
+    /**
+     * @var Account
+     */
+    protected $account;
 
     public function setUp(): void
     {

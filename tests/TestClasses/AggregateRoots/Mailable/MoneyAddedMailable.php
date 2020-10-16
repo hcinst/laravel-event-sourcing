@@ -6,9 +6,15 @@ use Illuminate\Mail\Mailable;
 
 class MoneyAddedMailable extends Mailable
 {
-    public int $amount;
+    /**
+     * @var int
+     */
+    public $amount;
 
-    public string $aggregateUuid;
+    /**
+     * @var string
+     */
+    public $aggregateUuid;
 
     public function __construct(int $amount, string $aggregateUuid)
     {

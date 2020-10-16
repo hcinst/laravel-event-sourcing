@@ -8,7 +8,10 @@ use Spatie\EventSourcing\Tests\TestClasses\Models\Account;
 
 class AccountProjector extends Projector
 {
-    protected array $handlesEvents = [
+    /**
+     * @var array|string[]
+     */
+    protected $handlesEvents = [
         MoneyAdded::class => 'onMoneyAdded',
     ];
 

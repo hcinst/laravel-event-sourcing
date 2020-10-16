@@ -9,7 +9,10 @@ use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 
 class FakeAggregateRoot
 {
-    private AggregateRoot $aggregateRoot;
+    /**
+     * @var AggregateRoot
+     */
+    private $aggregateRoot;
 
     private $whenResult = null;
 
@@ -19,7 +22,7 @@ class FakeAggregateRoot
     }
 
     /**
-     * @param \Spatie\EventSourcing\StoredEvents\ShouldBeStored|\Spatie\EventSourcing\StoredEvents\ShouldBeStored[] $events
+     * @param  ShouldBeStored|ShouldBeStored[]  $events
      *
      * @return $this
      */
@@ -62,7 +65,7 @@ class FakeAggregateRoot
     }
 
     /**
-     * @param \Spatie\EventSourcing\StoredEvents\ShouldBeStored|\Spatie\EventSourcing\StoredEvents\ShouldBeStored[] $expectedEvents
+     * @param  ShouldBeStored|ShouldBeStored[]  $expectedEvents
      *
      * @return $this
      */
@@ -79,7 +82,9 @@ class FakeAggregateRoot
 
     public function assertNotRecorded($unexpectedEventClasses): self
     {
-        $actualEventClasses = array_map(fn (ShouldBeStored $event) => get_class($event), $this->aggregateRoot->getRecordedEvents());
+        $actualEventClasses = array_map(function (ShouldBeStored $event) {
+            return get_class($event);
+        }, $this->aggregateRoot->getRecordedEvents());
 
         $unexpectedEventClasses = Arr::wrap($unexpectedEventClasses);
 
@@ -107,7 +112,7 @@ class FakeAggregateRoot
     }
 
     /**
-     * @param \Spatie\EventSourcing\StoredEvents\ShouldBeStored|\Spatie\EventSourcing\StoredEvents\ShouldBeStored[] $expectedEvents
+     * @param  ShouldBeStored|ShouldBeStored[]  $expectedEvents
      *
      * @return $this
      */
@@ -130,7 +135,9 @@ class FakeAggregateRoot
 
     public function assertNotApplied($unexpectedEventClasses): void
     {
-        $actualEventClasses = array_map(fn (ShouldBeStored $event) => get_class($event), $this->aggregateRoot->getAppliedEvents());
+        $actualEventClasses = array_map(function (ShouldBeStored $event) {
+            return get_class($event);
+        }, $this->aggregateRoot->getAppliedEvents());
 
         $unexpectedEventClasses = Arr::wrap($unexpectedEventClasses);
 

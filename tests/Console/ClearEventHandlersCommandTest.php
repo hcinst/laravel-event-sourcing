@@ -2,6 +2,7 @@
 
 namespace Spatie\EventSourcing\Tests\Console;
 
+use Illuminate\Contracts\Foundation\Application;
 use Spatie\EventSourcing\Projectionist;
 use Spatie\EventSourcing\Tests\TestCase;
 use Spatie\EventSourcing\Tests\TestClasses\Projectors\BalanceProjector;
@@ -9,7 +10,10 @@ use Spatie\EventSourcing\Tests\TestClasses\Reactors\BrokeReactor;
 
 class ClearEventHandlersCommandTest extends TestCase
 {
-    private Projectionist $projectionist;
+    /**
+     * @var Application|mixed|Projectionist
+     */
+    private $projectionist;
 
     public function setUp(): void
     {

@@ -25,7 +25,10 @@ use Spatie\EventSourcing\Tests\TestClasses\Models\OtherEloquentStoredEvent;
 
 class AggregateRootTest extends TestCase
 {
-    private string $aggregateUuid;
+    /**
+     * @var string
+     */
+    private $aggregateUuid;
 
     public function setUp(): void
     {
@@ -58,8 +61,8 @@ class AggregateRootTest extends TestCase
     public function persisting_an_aggregate_root_will_persist_all_events_it_recorded()
     {
         AccountAggregateRoot::retrieve($this->aggregateUuid)
-            ->addMoney(100)
-            ->persist();
+                            ->addMoney(100)
+                            ->persist();
 
         $storedEvents = EloquentStoredEvent::get();
         $this->assertCount(1, $storedEvents);
@@ -76,8 +79,8 @@ class AggregateRootTest extends TestCase
     public function when_an_aggregate_root_specifies_a_stored_event_repository_persisting_will_persist_all_events_it_recorded_via_repository()
     {
         AccountAggregateRootWithStoredEventRepositorySpecified::retrieve($this->aggregateUuid)
-            ->addMoney(100)
-            ->persist();
+                                                              ->addMoney(100)
+                                                              ->persist();
 
         $storedEvents = EloquentStoredEvent::get();
         $this->assertCount(0, $storedEvents);
@@ -99,8 +102,8 @@ class AggregateRootTest extends TestCase
         config()->set('event-sourcing.stored_event_model', OtherEloquentStoredEvent::class);
 
         AccountAggregateRoot::retrieve($this->aggregateUuid)
-            ->addMoney(100)
-            ->persist();
+                            ->addMoney(100)
+                            ->persist();
 
         $storedEvents = EloquentStoredEvent::get();
         $this->assertCount(0, $storedEvents);
@@ -124,8 +127,8 @@ class AggregateRootTest extends TestCase
         $this->expectException(InvalidEloquentStoredEventModel::class);
 
         AccountAggregateRoot::retrieve($this->aggregateUuid)
-            ->addMoney(100)
-            ->persist();
+                            ->addMoney(100)
+                            ->persist();
     }
 
     /** @test */
@@ -298,7 +301,9 @@ class AggregateRootTest extends TestCase
         $aggregateRoot = AccountAggregateRootWithFailingPersist::retrieve($this->aggregateUuid)->addMoney(123);
 
         $this->assertExceptionThrown(
-            fn () => AggregateRoot::persistInTransaction($aggregateRoot)
+            function () use ($aggregateRoot) {
+                AggregateRoot::persistInTransaction($aggregateRoot);
+            }
         );
 
         $this->assertCount(0, EloquentStoredEvent::get());
@@ -369,8 +374,8 @@ class AggregateRootTest extends TestCase
         ]);
 
         AccountAggregateRoot::retrieve($this->aggregateUuid)
-            ->addMoney(100)
-            ->persist();
+                            ->addMoney(100)
+                            ->persist();
 
         Event::assertDispatched(MoneyAdded::class, function (MoneyAdded $event) {
             $this->assertEquals(100, $event->amount);

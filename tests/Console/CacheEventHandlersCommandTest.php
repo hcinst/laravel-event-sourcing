@@ -2,6 +2,7 @@
 
 namespace Spatie\EventSourcing\Tests\Console;
 
+use Illuminate\Contracts\Foundation\Application;
 use Spatie\EventSourcing\Projectionist;
 use Spatie\EventSourcing\Tests\TestCase;
 use Spatie\EventSourcing\Tests\TestClasses\Projectors\BalanceProjector;
@@ -12,7 +13,10 @@ class CacheEventHandlersCommandTest extends TestCase
 {
     use MatchesSnapshots;
 
-    private Projectionist $projectionist;
+    /**
+     * @var Application|mixed|Projectionist
+     */
+    private $projectionist;
 
     public function setUp(): void
     {

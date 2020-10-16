@@ -25,8 +25,8 @@ trait HandlesEvents
         $handlerClassOrMethod = $this->getEventHandlingMethods()->get($eventClass);
 
         $parameters = [
-            'event' => $storedEvent->event,
-            'storedEvent' => $storedEvent,
+            'event'         => $storedEvent->event,
+            'storedEvent'   => $storedEvent,
             'aggregateUuid' => $storedEvent->aggregate_uuid,
         ];
 
@@ -34,7 +34,7 @@ trait HandlesEvents
             return app()->call([app($handlerClassOrMethod), '__invoke'], $parameters);
         }
 
-        if (! method_exists($this, $handlerClassOrMethod)) {
+        if (!method_exists($this, $handlerClassOrMethod)) {
             throw InvalidEventHandler::eventHandlingMethodDoesNotExist(
                 $this,
                 $storedEvent->event,
@@ -52,7 +52,7 @@ trait HandlesEvents
 
     public function getEventHandlingMethods(): Collection
     {
-        if (! isset($this->handlesEvents) && ! isset($this->handleEvent)) {
+        if (!isset($this->handlesEvents) && !isset($this->handleEvent)) {
             return $this->autoDetectHandlesEvents();
         }
 
@@ -77,15 +77,19 @@ trait HandlesEvents
         return collect((new ReflectionClass($this))->getMethods())
             ->flatMap(function (ReflectionMethod $method) {
                 $method = new ReflectionMethod($this, $method->name);
-                if (! $method->isPublic()) {
+                if (!$method->isPublic()) {
                     return;
                 }
 
                 $eventClass = collect($method->getParameters())
-                    ->map(fn (ReflectionParameter $parameter) => optional($parameter->getType())->getName())
-                    ->first(fn ($typeHint) => is_subclass_of($typeHint, ShouldBeStored::class));
+                    ->map(function (ReflectionParameter $parameter) {
+                        return optional($parameter->getType())->getName();
+                    })
+                    ->first(function ($typeHint) {
+                        return is_subclass_of($typeHint, ShouldBeStored::class);
+                    });
 
-                if (! $eventClass) {
+                if (!$eventClass) {
                     return null;
                 }
 

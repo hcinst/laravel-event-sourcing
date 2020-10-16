@@ -9,7 +9,10 @@ use Spatie\EventSourcing\Tests\TestClasses\Events\MoneySubtractedEvent;
 
 class BalanceProjector extends Projector
 {
-    protected array $handlesEvents = [
+    /**
+     * @var array|string[]
+     */
+    protected $handlesEvents = [
         MoneyAddedEvent::class => 'onMoneyAdded',
         MoneySubtractedEvent::class => 'onMoneySubtracted',
         MoneyAddedEventWithQueueOverride::class => 'onMoneyAdded',

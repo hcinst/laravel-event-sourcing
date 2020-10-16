@@ -7,9 +7,15 @@ use Spatie\EventSourcing\Tests\TestClasses\Models\Account;
 
 class MoneyAddedEventWithQueueOverride extends ShouldBeStored
 {
-    public Account $account;
+    /**
+     * @var Account
+     */
+    public $account;
 
-    public int $amount;
+    /**
+     * @var int
+     */
+    public $amount;
 
     /** @var string */
     public $queue = 'testQueue';

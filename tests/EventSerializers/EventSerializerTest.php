@@ -4,6 +4,7 @@ namespace Spatie\EventSourcing\Tests\EventSerializers;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
+use Illuminate\Contracts\Foundation\Application;
 use Spatie\EventSourcing\EventSerializers\EventSerializer;
 use Spatie\EventSourcing\Tests\TestCase;
 use Spatie\EventSourcing\Tests\TestClasses\Events\EventWithCarbon;
@@ -15,7 +16,10 @@ use Spatie\EventSourcing\Tests\TestClasses\Models\Account;
 
 class EventSerializerTest extends TestCase
 {
-    protected EventSerializer $eventSerializer;
+    /**
+     * @var Application|mixed|EventSerializer
+     */
+    protected $eventSerializer;
 
     public function setUp(): void
     {

@@ -18,17 +18,35 @@ use Spatie\EventSourcing\StoredEvents\StoredEvent;
 
 class Projectionist
 {
-    private EventHandlerCollection $projectors;
+    /**
+     * @var EventHandlerCollection
+     */
+    private $projectors;
 
-    private EventHandlerCollection $reactors;
+    /**
+     * @var EventHandlerCollection
+     */
+    private $reactors;
 
-    private bool $catchExceptions;
+    /**
+     * @var bool|mixed
+     */
+    private $catchExceptions;
 
-    private bool $replayChunkSize;
+    /**
+     * @var bool|mixed
+     */
+    private $replayChunkSize;
 
-    private bool $isProjecting = false;
+    /**
+     * @var bool
+     */
+    private $isProjecting = false;
 
-    private bool $isReplaying = false;
+    /**
+     * @var bool
+     */
+    private $isReplaying = false;
 
     public function __construct(array $config)
     {
@@ -98,7 +116,9 @@ class Projectionist
 
     public function getProjector(string $name): ?Projector
     {
-        return $this->projectors->first(fn (Projector $projector) => $projector->getName() === $name);
+        return $this->projectors->first(function (Projector $projector) use ($name) {
+            return $projector->getName() === $name;
+        });
     }
 
     public function getAsyncProjectorsFor(StoredEvent $storedEvent): Collection
@@ -171,13 +191,17 @@ class Projectionist
     }
 
     /**
-     * @param array|Collection|LazyCollection $events
+     * @param  array|Collection|LazyCollection  $events
      */
     public function handleStoredEvents($events): void
     {
         collect($events)
-            ->each(fn (StoredEvent $storedEvent) => $this->handleWithSyncEventHandlers($storedEvent))
-            ->each(fn (StoredEvent $storedEvent) => $this->handle($storedEvent));
+            ->each(function (StoredEvent $storedEvent) {
+                $this->handleWithSyncEventHandlers($storedEvent);
+            })
+            ->each(function (StoredEvent $storedEvent) {
+                $this->handle($storedEvent);
+            });
     }
 
     public function handle(StoredEvent $storedEvent): void

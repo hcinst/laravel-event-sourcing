@@ -6,7 +6,10 @@ use Spatie\EventSourcing\Exceptions\InvalidEloquentSnapshotModel;
 
 class EloquentSnapshotRepository implements SnapshotRepository
 {
-    protected string $snapshotModel;
+    /**
+     * @var string
+     */
+    protected $snapshotModel;
 
     public function __construct()
     {

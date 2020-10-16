@@ -16,7 +16,10 @@ class ReplayCommand extends Command
 
     protected $description = 'Replay stored events';
 
-    protected ?Projectionist $projectionist;
+    /**
+     * @var Projectionist|null
+     */
+    protected $projectionist;
 
     public function handle(Projectionist $projectionist): void
     {
@@ -30,7 +33,7 @@ class ReplayCommand extends Command
             return;
         }
 
-        $this->replay($projectors, (int)$this->option('from'));
+        $this->replay($projectors, (int) $this->option('from'));
     }
 
     public function selectProjectors(array $projectorClassNames): ?Collection
@@ -44,7 +47,9 @@ class ReplayCommand extends Command
         }
 
         return collect($projectorClassNames)
-            ->map(fn (string $projectorName) => ltrim($projectorName, '\\'))
+            ->map(function (string $projectorName) {
+                return ltrim($projectorName, '\\');
+            })
             ->map(function (string $projectorName) {
                 if (! $projector = $this->projectionist->getProjector($projectorName)) {
                     throw new Exception("Projector {$projectorName} not found. Did you register it?");

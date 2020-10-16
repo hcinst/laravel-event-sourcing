@@ -8,7 +8,10 @@ use Spatie\EventSourcing\Tests\TestClasses\Models\Account;
 
 class ResettableProjector extends Projector
 {
-    protected array $handlesEvents = [
+    /**
+     * @var string[]
+     */
+    protected $handlesEvents = [
         MoneyAddedEvent::class => 'onMoneyAdded',
     ];
 

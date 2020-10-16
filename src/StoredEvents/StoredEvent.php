@@ -11,23 +11,41 @@ use Spatie\EventSourcing\Facades\Projectionist;
 
 class StoredEvent implements Arrayable
 {
-    public ?int $id;
+    /**
+     * @var int|mixed|null
+     */
+    public $id;
 
     /** @var array|string */
     public $event_properties;
 
-    public string $aggregate_uuid;
+    /**
+     * @var mixed|string
+     */
+    public $aggregate_uuid;
 
-    public string $aggregate_version;
+    /**
+     * @var mixed|string
+     */
+    public $aggregate_version;
 
-    public string $event_class;
+    /**
+     * @var string
+     */
+    public $event_class;
 
     /** @var array|string */
     public $meta_data;
 
-    public string $created_at;
+    /**
+     * @var mixed|string
+     */
+    public $created_at;
 
-    public ?ShouldBeStored $event;
+    /**
+     * @var ShouldBeStored|null
+     */
+    public $event;
 
     public function __construct(array $data, ?ShouldBeStored $originalEvent = null)
     {
@@ -38,7 +56,7 @@ class StoredEvent implements Arrayable
         $this->event_class = self::getActualClassForEvent($data['event_class']);
         $this->meta_data = $data['meta_data'];
         $this->created_at = $data['created_at'];
-        
+
         $this->instantiateEvent($originalEvent);
     }
 
@@ -101,7 +119,7 @@ class StoredEvent implements Arrayable
 
         return $eventHandlers->asyncEventHandlers()->count() > 0;
     }
-    
+
     protected function instantiateEvent(?ShouldBeStored $originalEvent): void
     {
         if ($originalEvent) {
@@ -109,7 +127,7 @@ class StoredEvent implements Arrayable
 
             return;
         }
-    
+
         try {
             $this->event = app(EventSerializer::class)->deserialize(
                 self::getActualClassForEvent($this->event_class),
@@ -120,7 +138,7 @@ class StoredEvent implements Arrayable
                     ? $this->meta_data
                     : json_encode($this->meta_data),
             );
-        
+
             $this->event->setMetaData(optional($this->meta_data)->toArray());
         } catch (Exception $exception) {
             throw InvalidStoredEvent::couldNotUnserializeEvent($this, $exception);

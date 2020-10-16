@@ -7,7 +7,10 @@ use Spatie\EventSourcing\Tests\TestClasses\Events\MoneyAddedEvent;
 
 class MoneyAddedCountProjector extends Projector
 {
-    protected array $handlesEvents = [
+    /**
+     * @var string[]
+     */
+    protected $handlesEvents = [
         MoneyAddedEvent::class => 'onMoneyAdded',
     ];
 

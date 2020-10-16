@@ -7,7 +7,10 @@ use Spatie\EventSourcing\Tests\TestClasses\AggregateRoots\StorableEvents\DummyEv
 
 class GetMetaDataProjector extends Projector
 {
-    public static string $foundAggregateRootUuid = '';
+    /**
+     * @var string
+     */
+    public static $foundAggregateRootUuid = '';
 
     public function onDummyEvent(DummyEvent $event)
     {

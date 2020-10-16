@@ -8,11 +8,20 @@ use Spatie\EventSourcing\Tests\TestClasses\AggregateRoots\StorableEvents\MoneyMu
 
 class AccountAggregateRoot extends AggregateRoot
 {
-    public int $balance = 0;
+    /**
+     * @var int
+     */
+    public $balance = 0;
 
-    public int $aggregateVersion = 0;
+    /**
+     * @var int
+     */
+    public $aggregateVersion = 0;
 
-    public int $aggregateVersionAfterReconstitution = 0;
+    /**
+     * @var int
+     */
+    public $aggregateVersionAfterReconstitution = 0;
 
     public $dependency;
 

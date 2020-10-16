@@ -6,7 +6,10 @@ use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 
 class DummyEvent extends ShouldBeStored
 {
-    public int $integer;
+    /**
+     * @var int
+     */
+    public $integer;
 
     public function __construct(int $integer)
     {

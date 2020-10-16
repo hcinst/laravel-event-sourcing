@@ -7,7 +7,10 @@ use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 
 class EventWithCarbon extends ShouldBeStored
 {
-    public CarbonInterface $value;
+    /**
+     * @var CarbonInterface
+     */
+    public $value;
 
     public function __construct(CarbonInterface $value)
     {

@@ -19,18 +19,20 @@ class CacheEventHandlersCommand extends Command
         $this->info('Caching registered event handlers...');
 
         $projectionist->allEventHandlers()
-            ->toBase()
-            ->map(fn (EventHandler $eventHandler) => get_class($eventHandler))
-            ->pipe(function (Collection $eventHandlerClasses) use ($files) {
-                $cachePath = config('event-sourcing.cache_path');
+                      ->toBase()
+                      ->map(function (EventHandler $eventHandler) {
+                          return get_class($eventHandler);
+                      })
+                      ->pipe(function (Collection $eventHandlerClasses) use ($files) {
+                          $cachePath = config('event-sourcing.cache_path');
 
-                $files->makeDirectory($cachePath, 0755, true, true);
+                          $files->makeDirectory($cachePath, 0755, true, true);
 
-                $files->put(
-                    $cachePath.'/event-handlers.php',
-                    '<?php return '.var_export($eventHandlerClasses->toArray(), true).';'
-                );
-            });
+                          $files->put(
+                              $cachePath.'/event-handlers.php',
+                              '<?php return '.var_export($eventHandlerClasses->toArray(), true).';'
+                          );
+                      });
 
         $this->info('All done!');
     }

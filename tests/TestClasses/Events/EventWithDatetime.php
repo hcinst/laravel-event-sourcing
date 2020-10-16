@@ -7,7 +7,10 @@ use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 
 class EventWithDatetime extends ShouldBeStored
 {
-    public DateTimeImmutable $value;
+    /**
+     * @var DateTimeImmutable
+     */
+    public $value;
 
     public function __construct(DateTimeImmutable $value)
     {
